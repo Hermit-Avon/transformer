@@ -28,7 +28,9 @@ jobs:
 
       - name: Install spaCy models
         run: |
-          uv pip install de-core-news-sm en-core-web-sm
+          uv pip install \
+            https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.8.0/de_core_news_sm-3.8.0-py3-none-any.whl \
+            https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
 
       - name: Run tests
         run: PYTHONPATH=. uv run pytest -q
