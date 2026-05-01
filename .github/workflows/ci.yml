@@ -26,10 +26,9 @@ jobs:
       - name: Install dependencies
         run: uv sync --frozen
 
-      - name: Download spaCy models
+      - name: Install spaCy models
         run: |
-          uv run python -m spacy download de_core_news_sm
-          uv run python -m spacy download en_core_web_sm
+          uv pip install de-core-news-sm en-core-web-sm
 
       - name: Run tests
         run: PYTHONPATH=. uv run pytest -q
