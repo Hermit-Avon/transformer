@@ -20,6 +20,9 @@ train_iter, valid_iter, test_iter = loader.make_iter(train, valid, test,
                                                      batch_size=batch_size,
                                                      device=device)
 
+assert loader.source.vocab is not None
+assert loader.target.vocab is not None
+
 src_pad_idx = loader.source.vocab.stoi['<pad>']
 trg_pad_idx = loader.target.vocab.stoi['<pad>']
 trg_sos_idx = loader.target.vocab.stoi['<sos>']

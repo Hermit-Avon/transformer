@@ -5,3 +5,9 @@ venv/
 *.pt
 __pycache__
 result/
+.venv
+.codex
+pyproject.toml
+pyrightconfig.json
+uv.lock
+.python-version

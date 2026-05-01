@@ -6,10 +6,37 @@
 import math
 import time
 
+import torch
 from torch import nn, optim
 from torch.optim import Adam
 
-from data import *
+from data import (
+    dec_voc_size,
+    device,
+    d_model,
+    drop_prob,
+    enc_voc_size,
+    epoch,
+    factor,
+    ffn_hidden,
+    inf,
+    init_lr,
+    loader,
+    n_heads,
+    n_layers,
+    src_pad_idx,
+    test_iter,
+    train_iter,
+    trg_pad_idx,
+    trg_sos_idx,
+    valid_iter,
+    adam_eps,
+    warmup,
+    clip,
+    weight_decay,
+    max_len,
+    patience,
+)
 from models.model.transformer import Transformer
 from util.bleu import idx_to_word, get_bleu
 from util.epoch_timer import epoch_time
@@ -21,7 +48,7 @@ def count_parameters(model):
 
 def initialize_weights(m):
     if hasattr(m, 'weight') and m.weight.dim() > 1:
-        nn.init.kaiming_uniform(m.weight.data)
+        nn.init.kaiming_uniform_(m.weight.data)
 
 
 model = Transformer(src_pad_idx=src_pad_idx,
@@ -45,7 +72,7 @@ optimizer = Adam(params=model.parameters(),
                  eps=adam_eps)
 
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer=optimizer,
-                                                 verbose=True,
+                                                 ## verbose=True,
                                                  factor=factor,
                                                  patience=patience)
 
@@ -80,7 +107,7 @@ def evaluate(model, iterator, criterion):
     epoch_loss = 0
     batch_bleu = []
     with torch.no_grad():
-        for i, batch in enumerate(iterator):
+        for batch in iterator:
             src = batch.src
             trg = batch.trg
             output = model(src, trg[:, :-1])
@@ -91,7 +118,7 @@ def evaluate(model, iterator, criterion):
             epoch_loss += loss.item()
 
             total_bleu = []
-            for j in range(batch_size):
+            for j in range(batch.trg.size(0)):
                 try:
                     trg_words = idx_to_word(batch.trg[j], loader.target.vocab)
                     output_words = output[j].max(dim=1)[1]
