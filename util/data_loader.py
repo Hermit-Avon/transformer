@@ -14,13 +14,15 @@ UNK = "<unk>"
 class Vocab:
     def __init__(self, tokens, min_freq=2, specials=(PAD, UNK, "<sos>", "<eos>")):
         counter = Counter(tokens)
-        self.itos = []
+        self.itos = [] # itos: index of string
         for token in specials:
             if token not in self.itos:
                 self.itos.append(token)
         for word, count in counter.items():
             if count >= min_freq and word not in self.itos:
                 self.itos.append(word)
+
+        # stoi: string to i
         self.stoi = {word: idx for idx, word in enumerate(self.itos)}
 
     def __len__(self):
