@@ -136,7 +136,7 @@ def evaluate(model, iterator, criterion):
 
 
 def run(total_epoch, best_loss):
-    train_losses, test_losses, bleus = [], [], []
+    train_losses, valid_losses, bleus = [], [], []
     for step in range(total_epoch):
         start_time = time.time()
         train_loss = train(model, train_iter, optimizer, criterion, clip)
@@ -147,7 +147,7 @@ def run(total_epoch, best_loss):
             scheduler.step(valid_loss)
 
         train_losses.append(train_loss)
-        test_losses.append(valid_loss)
+        valid_losses.append(valid_loss)
         bleus.append(bleu)
         epoch_mins, epoch_secs = epoch_time(start_time, end_time)
 
@@ -164,7 +164,7 @@ def run(total_epoch, best_loss):
         f.close()
 
         f = open('result/test_loss.txt', 'w')
-        f.write(str(test_losses))
+        f.write(str(valid_losses))
         f.close()
 
         print(f'Epoch: {step + 1} | Time: {epoch_mins}m {epoch_secs}s')
