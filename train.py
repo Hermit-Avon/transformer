@@ -40,6 +40,7 @@ from data import (
 from models.model.transformer import Transformer
 from util.bleu import idx_to_word, get_bleu
 from util.epoch_timer import epoch_time
+import os
 
 
 def count_parameters(model):
@@ -137,6 +138,8 @@ def evaluate(model, iterator, criterion):
 
 def run(total_epoch, best_loss):
     train_losses, valid_losses, bleus = [], [], []
+    os.makedirs("result", exist_ok=True)
+    os.makedirs("saved", exist_ok=True)
     for step in range(total_epoch):
         start_time = time.time()
         train_loss = train(model, train_iter, optimizer, criterion, clip)
