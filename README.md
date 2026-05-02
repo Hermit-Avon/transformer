@@ -26,3 +26,7 @@ make data
 ```bash
 uv run train.py
 ```
+
+## 结果
+
+`saved/model-best.pt` 就是训练的产物
