@@ -153,7 +153,8 @@ def run(total_epoch, best_loss):
 
         if valid_loss < best_loss:
             best_loss = valid_loss
-            torch.save(model.state_dict(), 'saved/model-{0}.pt'.format(valid_loss))
+            # torch.save(model.state_dict(), 'saved/model-{0}.pt'.format(valid_loss))
+            torch.save(model.state_dict(), 'saved/model-best.pt')
 
         f = open('result/train_loss.txt', 'w')
         f.write(str(train_losses))
