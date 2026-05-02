@@ -20,11 +20,9 @@ uv sync
 make data
 ```
 
-```
 
 ## 训练
 
 ```bash
 uv run train.py
-```
 ```
